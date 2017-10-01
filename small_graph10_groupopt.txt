@@ -1,0 +1,9 @@
+CREATE RECURSIVE VIEW
+REQU(d,i,j,p,v) AS (
+SELECT 1,i,j,1,v FROM small_graph
+UNION ALL
+SELECT d + 1, REQU.i, small_graph.j, REQU.p * small_graph.p, REQU.v + small_graph.v
+FROM REQU JOIN small_graph ON REQU.j = small_graph.i
+WHERE d < 10 );
+
+SELECT d,i,j,sum(p) as p,max(v) as v into def FROM EQU GROUP BY d,i,j;
